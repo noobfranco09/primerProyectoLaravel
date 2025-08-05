@@ -1,0 +1,14 @@
+@csrf
+<div class="mb-3">
+    <label>Nombre</label>
+    <input type="text" name="nombre" class="form-control" value="{{ old('nombre', $producto->nombre ?? '') }}">
+</div>
+<div class="mb-3">
+    <label>Descripción</label>
+    <textarea  name="descripcion" class="form-control" value="{{ old('descripcion', $producto->descripcion ?? '') }}"></textarea>
+
+</div>
+<div class="mb-3">
+    <label>Precio</label>
+    <input type="number" name="precio" class="form-control" value="{{ old('precio', $producto->precio ?? '') }}">
+</div>
