@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Type\Integer;
 
 class ProductoController extends Controller
 {
@@ -12,7 +13,7 @@ class ProductoController extends Controller
     public function index()
     {
         $productos = Producto::all();
-        return view('productos.index',compact('productos'));
+        return view('productos.index', compact('productos'));
         //
     }
 
@@ -30,9 +31,11 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-                $request->validate([
-            'nombre'=>'required',
-            'precio'=>'required|numeric'
+        $request->validate([
+            'nombre' => 'required',
+            'precio' => 'required|numeric',
+            'stock' => 'required|numeric',
+            'marca' => 'required'
         ]);
         Producto::create($request->all());
         return redirect()->route('productos.index')->with('success', 'Creado con éxito');
@@ -43,23 +46,32 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        return view('productos.show',compact('producto'));
+        return view('productos.show', compact('producto'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(int $id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        return view('productos.update', compact('producto'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        $request->validate([
+            'nombre' => 'required',
+            'precio' => 'required|numeric',
+            'stock' => 'required|numeric',
+            'marca' => 'required'
+        ]);
+        $producto->update($request->only(['nombre', 'descripcion', 'precio', 'stock', 'marca']));
+        return redirect()->route('productos.index')->with('success', 'Editado con éxito');
     }
 
     /**
@@ -71,6 +83,6 @@ class ProductoController extends Controller
         $producto->delete();
         return redirect()->route('productos.index')->with('success', 'producto eliminado');
 
-        
+
     }
 }

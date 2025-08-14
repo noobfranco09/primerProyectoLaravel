@@ -12,16 +12,24 @@
         <table class="table mt-3">
             <thead>
                 <tr>
+                    <th>Id</th>
                     <th>Nombre</th>
+                    <th>Descripción</th>
                     <th>Precio</th>
-                    <th>Acciones</th>
+                    <th>Stock</th>
+                    <th>Marca</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($productos as $producto)
                     <tr>
+                        <td>{{ $producto->id }}</td>
                         <td>{{ $producto->nombre }}</td>
+                        <td>{{ $producto->descripcion }}</td>
                         <td>${{ $producto->precio }}</td>
+                        <td>{{ $producto->stock }}</td>
+                        <td>{{ $producto->marca }}</td>
                         <td>
                             <a href="{{ route('productos.show', $producto) }}" class="btn btn-sm btn-info">Ver</a>
                             <a href="{{ route('productos.edit', $producto) }}" class="btn btn-sm btn-warning">Editar</a>
